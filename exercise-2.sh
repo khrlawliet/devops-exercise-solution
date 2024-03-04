@@ -17,7 +17,7 @@ declare -r ERROR_MSG="Error: Please provide exactly 6 consecutive numbers as com
 declare -ar NUM_ARGS=("$@")
 
 # Check if 6 numbers are provided as command line arguments
-if [ "${#NUM_ARGS[@]}" -ne $TOTAL_NUM_ARGS ]; then
+if [[ "${#NUM_ARGS[@]}" -ne $TOTAL_NUM_ARGS ]]; then
     echo $ERROR_MSG
     exit 1
 fi
