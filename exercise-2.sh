@@ -1,8 +1,11 @@
 #!/bin/bash
 
-#to execute the script, run the following command:
-#bash exercise-2.sh <number array args> or ./exercise-2.sh <number array args>
-#execution example: bash exercise-2.sh 1 2 3 4 5 6 or ./exercise-2.sh 1 2 3 4 5 6
+################################################################################
+# Script Name: exercise-2.sh
+# Description: Perform various operations on a list of 6 consecutive numbers.
+# Author: Kervin Rey H. Balibagoso
+# Usage: ./exercise-2.sh <num1> <num2> <num3> <num4> <num5> <num6>
+################################################################################
 
 # Set final total of number arguments in command line
 declare -r TOTAL_NUM_ARGS=6
@@ -105,7 +108,7 @@ sort_numbers() {
     elif [ "$arg" = "desc" ]; then
         sorted_numbers=($(printf '%s\n' "${NUM_ARGS[@]}" | sort -nr))
     else
-        echo "Error: Invalid argument. Please specify 'asc' or 'desc'."
+        echo "Error: Invalid argument. Please specify action eg 'asc' or 'desc'."
         exit 1
     fi
     result=$(printf '%s ' "${sorted_numbers[@]}")
