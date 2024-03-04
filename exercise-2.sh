@@ -1,12 +1,19 @@
 #!/bin/bash
 
+# Set final numbers of arguments in command line
+declare -r TOTAL_NUM_ARGS=6
+
+#Set error message
+declare -r ERROR_MSG="Error: Please provide exactly 6 consecutive numbers as command line arguments."
+
+# Set the provided numbers as an array and immutable
+readonly numbers=("$@")
+
 # Check if 6 numbers are provided as command line arguments
-if [ "$#" -ne 6 ]; then
-    echo "Error: Please provide exactly 6 consecutive numbers as command line arguments."
+if [ "${#numbers[@]}" -ne $TOTAL_NUM_ARGS ]; then
+    echo $ERROR_MSG
     exit 1
 fi
-
-numbers=("$@")
 
 # Check if the provided numbers are consecutive
 is_consecutive() {
@@ -20,8 +27,8 @@ is_consecutive() {
 }
 
 # If the numbers are not consecutive, exit the program
-if ! is_consecutive "${numbers[@]}"; then
-    echo "Error: Please provide 6 consecutive numbers as command line arguments."
+if ! is_consecutive; then
+    echo $ERROR_MSG
     exit 1
 fi
 
@@ -82,7 +89,8 @@ multiplication() {
 }
 
 random_number() {
-    index=$((RANDOM % 6))
+    length=${#numbers[@]}
+    index=$((RANDOM % length))
     echo "Result = ${numbers[$index]}"
 }
 
