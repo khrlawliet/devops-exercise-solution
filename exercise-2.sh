@@ -102,10 +102,10 @@ random_number() {
 }
 
 sort_numbers() {
-    local arg=$1
-    if [ "$arg" = "asc" ]; then
+    local action=$1
+    if [ "$action" = "asc" ]; then
         sorted_numbers=($(printf '%s\n' "${NUM_ARGS[@]}" | sort -n))
-    elif [ "$arg" = "desc" ]; then
+    elif [ "$action" = "desc" ]; then
         sorted_numbers=($(printf '%s\n' "${NUM_ARGS[@]}" | sort -nr))
     else
         echo "Error: Invalid argument. Please specify action eg 'asc' or 'desc'."
