@@ -1,3 +1,4 @@
+#!/bin/bash
 deploy_package_path="deployPackage"
 added_path="$deploy_package_path/added"
 removed_path="$deploy_package_path/removed"
