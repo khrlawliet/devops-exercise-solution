@@ -9,9 +9,12 @@ mkdir -p $removed_path
 
 while IFS= read -r line || [[ -n $line ]]; do
 
+    #extract column 1 on line
     status=$(echo "$line" | awk '{print $1}')
-    filepath=$(echo "$line" | awk '{print $2}')
+    #extract column 2 on line and remove carriage return character
+    filepath=$(echo "$line" | awk '{print $2}' | tr -d '\r')
 
+    #extract filename from filepath
     filename=$(basename "$filepath")
 
     if [[ "$status" == "M" || "$status" == "A" ]]; then

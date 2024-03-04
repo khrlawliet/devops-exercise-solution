@@ -29,12 +29,13 @@ fi
 selection() {
     echo "=================================================="
     echo "Select number to perform the following operations:"
+    echo "=================================================="
     echo "1. Perform subtraction"
     echo "2. Perform multiplication"
     echo "3. Perfom random number generation"
     echo "4. Print sorted numbers (highest to lowest)"
     echo "5. Print sorted numbers (lowest to highest)"
-    echo "6. Select 6 to exit"
+    echo "6. Exit"
 
     # Read user input
     read -p "Enter selected number to perform: " operation
@@ -44,8 +45,8 @@ selection() {
     1) subtraction ;;
     2) multiplication ;;
     3) random_number ;;
-    4) sort_desc ;;
-    5) sort_asc ;;
+    4) sort_numbers "desc" ;;
+    5) sort_numbers "asc" ;;
     6)
         echo "Exit program."
         exit
@@ -53,12 +54,19 @@ selection() {
     *) echo "Invalid operation. Please enter a number from 1 to 6." ;;
     esac
 
-    selection
+    # selection
 }
 
 subtraction() {
-    result=$((${numbers[0]} - ${numbers[1]} - ${numbers[2]} - ${numbers[3]} - ${numbers[4]} - ${numbers[5]}))
-    echo "result=$result"
+    local i
+    for ((i = 0; i < ${#numbers[@]} - 1; i++)); do
+        cur=${numbers[i]}
+        next=${numbers[i + 1]}
+        diff=$((cur - next))
+        result+=" ${cur} - ${next} = ${diff}, "
+    done
+    # result=$((${numbers[0]} - ${numbers[1]} - ${numbers[2]} - ${numbers[3]} - ${numbers[4]} - ${numbers[5]}))
+    echo "Result = $result"
 }
 
 multiplication() {
@@ -70,24 +78,26 @@ multiplication() {
     \"InputNumber5\": ${numbers[4]}, \
     \"InputNumber6\": ${numbers[5]}, \
     \"Multiplication\": $result } " | tr -d ' ' >multiplication_result.json
-    echo "generated multiplication_result.json"
+    echo "Generated multiplication_result.json file"
 }
 
 random_number() {
     index=$((RANDOM % 6))
-    echo "result=${numbers[$index]}"
+    echo "Result = ${numbers[$index]}"
 }
 
-sort_desc() {
-    sorted_numbers=($(printf '%s\n' "${numbers[@]}" | sort -nr))
-    printf '%s ' "result=${sorted_numbers[@]}"
-    echo
-}
-
-sort_asc() {
-    sorted_numbers=($(printf '%s\n' "${numbers[@]}" | sort -n))
-    printf '%s ' "result=${sorted_numbers[@]}"
-    echo
+sort_numbers() {
+    local arg=$1
+    if [ "$arg" = "asc" ]; then
+        sorted_numbers=($(printf '%s\n' "${numbers[@]}" | sort -n))
+    elif [ "$arg" = "desc" ]; then
+        sorted_numbers=($(printf '%s\n' "${numbers[@]}" | sort -nr))
+    else
+        echo "Error: Invalid argument. Please specify 'asc' or 'desc'."
+        exit 1
+    fi
+    result=$(printf '%s ' "${sorted_numbers[@]}")
+    echo "Result = ${result}"
 }
 
 selection
