@@ -1,16 +1,20 @@
 #!/bin/bash
 
-# Set final numbers of arguments in command line
+#to execute the script, run the following command:
+#bash exercise-2.sh <number array args> or ./exercise-2.sh <number array args>
+#execution example: bash exercise-2.sh 1 2 3 4 5 6 or ./exercise-2.sh 1 2 3 4 5 6
+
+# Set final total of number arguments in command line
 declare -r TOTAL_NUM_ARGS=6
 
 #Set error message
 declare -r ERROR_MSG="Error: Please provide exactly 6 consecutive numbers as command line arguments."
 
-# Set the provided numbers as an array and immutable
-readonly numbers=("$@")
+# Set the provided number arguments as an array and immutable
+declare -ar NUM_ARGS=("$@")
 
 # Check if 6 numbers are provided as command line arguments
-if [ "${#numbers[@]}" -ne $TOTAL_NUM_ARGS ]; then
+if [ "${#NUM_ARGS[@]}" -ne $TOTAL_NUM_ARGS ]; then
     echo $ERROR_MSG
     exit 1
 fi
@@ -18,8 +22,8 @@ fi
 # Check if the provided numbers are consecutive
 is_consecutive() {
     local i
-    for ((i = 1; i < ${#numbers[@]}; i++)); do
-        if [ $((numbers[i] - numbers[i - 1])) -ne 1 ]; then
+    for ((i = 1; i < ${#NUM_ARGS[@]}; i++)); do
+        if [ $((NUM_ARGS[i] - NUM_ARGS[i - 1])) -ne 1 ]; then
             return 1
         fi
     done
@@ -66,40 +70,40 @@ selection() {
 
 subtraction() {
     local i
-    for ((i = 0; i < ${#numbers[@]} - 1; i++)); do
-        cur=${numbers[i]}
-        next=${numbers[i + 1]}
+    for ((i = 0; i < ${#NUM_ARGS[@]} - 1; i++)); do
+        cur=${NUM_ARGS[i]}
+        next=${NUM_ARGS[i + 1]}
         diff=$((cur - next))
         result+=" ${cur} - ${next} = ${diff}, "
     done
-    # result=$((${numbers[0]} - ${numbers[1]} - ${numbers[2]} - ${numbers[3]} - ${numbers[4]} - ${numbers[5]}))
+    # result=$((${NUM_ARGS[0]} - ${NUM_ARGS[1]} - ${NUM_ARGS[2]} - ${NUM_ARGS[3]} - ${NUM_ARGS[4]} - ${NUM_ARGS[5]}))
     echo "Result = $result"
 }
 
 multiplication() {
-    result=$((${numbers[0]} * ${numbers[1]} * ${numbers[2]} * ${numbers[3]} * ${numbers[4]} * ${numbers[5]}))
-    echo "{\"InputNumber1\": ${numbers[0]}, \
-    \"InputNumber2\": ${numbers[1]}, \
-    \"InputNumber3\": ${numbers[2]}, \
-    \"InputNumber4\": ${numbers[3]}, \
-    \"InputNumber5\": ${numbers[4]}, \
-    \"InputNumber6\": ${numbers[5]}, \
-    \"Multiplication\": $result } " | tr -d ' ' >multiplication_result.json
+    product=$((${NUM_ARGS[0]} * ${NUM_ARGS[1]} * ${NUM_ARGS[2]} * ${NUM_ARGS[3]} * ${NUM_ARGS[4]} * ${NUM_ARGS[5]}))
+    echo "{\"InputNumber1\": ${NUM_ARGS[0]}, \
+    \"InputNumber2\": ${NUM_ARGS[1]}, \
+    \"InputNumber3\": ${NUM_ARGS[2]}, \
+    \"InputNumber4\": ${NUM_ARGS[3]}, \
+    \"InputNumber5\": ${NUM_ARGS[4]}, \
+    \"InputNumber6\": ${NUM_ARGS[5]}, \
+    \"Multiplication\": $product } " | tr -d ' ' >multiplication_result.json
     echo "Generated multiplication_result.json file"
 }
 
 random_number() {
-    length=${#numbers[@]}
+    length=${#NUM_ARGS[@]}
     index=$((RANDOM % length))
-    echo "Result = ${numbers[$index]}"
+    echo "Result = ${NUM_ARGS[$index]}"
 }
 
 sort_numbers() {
     local arg=$1
     if [ "$arg" = "asc" ]; then
-        sorted_numbers=($(printf '%s\n' "${numbers[@]}" | sort -n))
+        sorted_numbers=($(printf '%s\n' "${NUM_ARGS[@]}" | sort -n))
     elif [ "$arg" = "desc" ]; then
-        sorted_numbers=($(printf '%s\n' "${numbers[@]}" | sort -nr))
+        sorted_numbers=($(printf '%s\n' "${NUM_ARGS[@]}" | sort -nr))
     else
         echo "Error: Invalid argument. Please specify 'asc' or 'desc'."
         exit 1

@@ -1,4 +1,11 @@
 #!/bin/bash
+
+#to execute the script, run the following command:
+#bash exercise-1.sh or ./exercise-1.sh
+#command execution will generate deployPackage directory with added and removed subdirectories
+#and added.txt and removed.txt files
+
+#initialize variables
 deploy_package_path="deployPackage"
 added_path="$deploy_package_path/added"
 removed_path="$deploy_package_path/removed"
